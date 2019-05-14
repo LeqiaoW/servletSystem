@@ -15,6 +15,24 @@ public class testMovieTable {
         Movie movie = new Movie("1", "复仇者联盟4", posterPath, "罗素", "Chris-evans", 1,
                 "English", "China", "2019-04-24", 9.5);
         movieTable.insert(movie);
+        movie.setMno("2");
+        movieTable.insert(movie);
+        movie.setMno("3");
+        movieTable.insert(movie);
+        movie.setMno("4");
+        movieTable.insert(movie);
+        movie.setMno("5");
+        movieTable.insert(movie);
+        movie.setMno("6");
+        movieTable.insert(movie);
+        movie.setMno("7");
+        movieTable.insert(movie);
+        movie.setMno("8");
+        movieTable.insert(movie);
+        movie.setMno("9");
+        movieTable.insert(movie);
+        movie.setMno("10");
+        movieTable.insert(movie);
 
         //test select
         Movie movie2 = movieTable.select("1");
@@ -29,6 +47,6 @@ public class testMovieTable {
         movieTable.update(movieUpdate);
 
         //test delete, make a breakpoint here
-        movieTable.delete(movie2.getMno());
+//        movieTable.delete(movie2.getMno());
     }
 }

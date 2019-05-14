@@ -36,8 +36,12 @@ public class HomePage extends HttpServlet {
         ResultSet rs = null;
         try{
             rs = MovieSystemDB.getStmt().executeQuery(sql);
+            LinkedBlockingQueue<String> Mno = new LinkedBlockingQueue<>();
             while(rs.next()){
-                Movie movie = MovieSystemDB.getMovieTable().select(rs.getString(1));
+                Mno.put(rs.getString(1));
+            }
+            while(!Mno.isEmpty()){
+                Movie movie = MovieSystemDB.getMovieTable().select(Mno.peek());
                 if(!fileExist(movie.getMposterPath())){
                     movie.setMposterPath(defaultImagePath);
                 }
