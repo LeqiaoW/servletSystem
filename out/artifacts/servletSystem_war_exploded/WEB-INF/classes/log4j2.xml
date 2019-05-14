@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status=debug 可以查看log4j的装配过程 -->
+<Configuration status="off" monitorInterval="1800">
+
+    <properties>
+        <property name="LOG_HOME">logs/sample</property>
+        <property name="FILE_NAME">mylog</property>
+    </properties>
+
+    <Appenders>
+        <!-- 定义控制台输出 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+
+        <RollingRandomAccessFile name="running-log"
+                                 fileName="${LOG_HOME}/${FILE_NAME}.log" filePattern="${LOG_HOME}/
+                           $${sdate:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout
+                    pattern="%sdate{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] -
+                           %msg%n" />
+            <Policies>
+                <!-- 每天生成一个日志文件 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 每到10M生成一个日志文件 -->
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <!-- 最大保存文件数 -->
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+        <!-- 文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，-->
+        <!-- 这个也挺有用的，适合临时测试用 -->
+        <File name="log" fileName="log/test.log" append="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M -
+                    %msg%xEx%n"/>
+        </File>
+
+        <!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入 -->
+        <!-- 按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+        <RollingFile name="RollingFile" fileName="logs/app.log"
+                     filePattern="log/$${sdate:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36}
+                     %L %M - %msg%xEx%n"/>
+            <SizeBasedTriggeringPolicy size="50MB"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.cnblogs.yjmyzz.App2" level="trace"
+                additivity="true">
+            <AppenderRef ref="running-log" />
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>
