@@ -1,6 +1,7 @@
 package testFrontEnd;
 
 import database.movieUtil.Movie;
+import database.movieUtil.MovieToFrontEnd;
 import database.system.MovieSystemDB;
 import frontEnd.HomePage;
 
@@ -10,7 +11,7 @@ public class TestHomePage {
     public static void main(String[] args) {
         MovieSystemDB.DBinit();
         HomePage homePage = new HomePage();
-        LinkedBlockingQueue<Movie> top10= homePage.getTop10();
+        LinkedBlockingQueue<MovieToFrontEnd> top10= homePage.getTop10();
         System.out.println("test top 10 ");
     }
 }

@@ -9,6 +9,12 @@ public class Movie implements ClassFunction {
     private String Mno;         //primary key
     @JSONField(name ="Mname")
     private String Mname;       //the name of the movieUtil
+    @JSONField(name = "MEnglishName")
+    private String MEnglishName;
+    @JSONField(name = "Mduration")
+    private String Mduration;
+    @JSONField(name = "MboxOffice")
+    private double MboxOffice;
     @JSONField(name ="MposterPath")
     private String MposterPath;  //the path of the movieUtil's poster in the server computer
     @JSONField(name ="Mdirector")
@@ -16,7 +22,7 @@ public class Movie implements ClassFunction {
     @JSONField(name ="actor")
     private String actor;       //the actors' id
     @JSONField(name ="Mtype")
-    private int Mtype;          //the movieUtil's type
+    private String Mtype;          //the movieUtil's type
     @JSONField(name ="Mlanguage")
     private String Mlanguage;   //the language of the movieUtil
     @JSONField(name ="Mlocation")
@@ -25,26 +31,40 @@ public class Movie implements ClassFunction {
     private String Mdate;        //when the movieUtil show
     @JSONField(name ="Mrating")
     private double Mrating;      //the rating of the movieUtil
+    @JSONField(name = "MscoreNumber")
+    private int MscoreNumber;
+    @JSONField(name = "Mintroduction")
+    private String Mintroduction;
+
 
     public Movie() {
         this.Mno = null;
         this.Mname = null;
+        this.MEnglishName = null;
+        this.Mduration = null;
+        this.MboxOffice = 0;
         this.MposterPath = null;
         this.director = null;
         this.actor = null;
-        this.Mtype = 0;
+        this.Mtype = null;
         this.Mlanguage = null;
         this.Mlocation = null;
         this.Mdate = null;
         this.Mrating = 0;
+        this.MscoreNumber = 0;
+        this.Mintroduction = null;
     }
 
-    public Movie(String Mno, String Mname, String MposterPath,
-                 String director, String actor, int Mtype,
+    public Movie(String Mno, String Mname, String MEnglishName,
+                 String Mduration, double MboxOffice, String MposterPath,
+                 String director, String actor, String Mtype,
                  String Mlanguage, String Mlocation, String Mdate,
-                 double Mrating) {
+                 double Mrating, int MscoreNumber, String Mintroduction) {
         this.Mno = Mno;
         this.Mname = Mname;
+        this.MEnglishName = MEnglishName;
+        this.Mduration = Mduration;
+        this.MboxOffice = MboxOffice;
         this.MposterPath = MposterPath;
         this.director = director;
         this.actor = actor;
@@ -53,6 +73,8 @@ public class Movie implements ClassFunction {
         this.Mlocation = Mlocation;
         this.Mdate = Mdate;
         this.Mrating = Mrating;
+        this.MscoreNumber = MscoreNumber;
+        this.Mintroduction = Mintroduction;
     }
 
     @Override
@@ -60,14 +82,19 @@ public class Movie implements ClassFunction {
         return "{" +
                 this.Mno + ", " +
                 this.Mname + ", " +
+                this.MEnglishName +", "+
+                this.Mduration +", " +
+                Double.toString(this.MboxOffice) + ", " +
                 this.MposterPath + ", " +
                 this.director + ", " +
                 this.actor + ", " +
-                Integer.toString(this.Mtype) + ", " +
+                this.Mtype + ", " +
                 this.Mlanguage + ", " +
                 this.Mlocation + ", " +
                 this.Mdate + ", " +
-                Double.toString(this.Mrating) + "}";
+                Double.toString(this.Mrating)+", "+
+                Integer.toString(this.MscoreNumber) +", " +
+                this.Mintroduction + "}";
     }
     public String getMno() {
         return Mno;
@@ -109,11 +136,11 @@ public class Movie implements ClassFunction {
         this.actor = actor;
     }
 
-    public int getMtype() {
+    public String getMtype() {
         return Mtype;
     }
 
-    public void setMtype(int mtype) {
+    public void setMtype(String mtype) {
         Mtype = mtype;
     }
 
@@ -147,5 +174,45 @@ public class Movie implements ClassFunction {
 
     public void setMlanguage(String mlanguage) {
         Mlanguage = mlanguage;
+    }
+
+    public String getMEnglishName() {
+        return MEnglishName;
+    }
+
+    public void setMEnglishName(String MEnglishName) {
+        this.MEnglishName = MEnglishName;
+    }
+
+    public String getMduration() {
+        return Mduration;
+    }
+
+    public void setMduration(String mduration) {
+        Mduration = mduration;
+    }
+
+    public double getMboxOffice() {
+        return MboxOffice;
+    }
+
+    public void setMboxOffice(double mboxOffice) {
+        MboxOffice = mboxOffice;
+    }
+
+    public int getMscoreNumber() {
+        return MscoreNumber;
+    }
+
+    public void setMscoreNumber(int mscoreNumber) {
+        MscoreNumber = mscoreNumber;
+    }
+
+    public String getMintroduction() {
+        return Mintroduction;
+    }
+
+    public void setMintroduction(String mintroduction) {
+        Mintroduction = mintroduction;
     }
 }

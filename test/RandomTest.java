@@ -9,11 +9,5 @@ public class RandomTest {
 
 
     public static void main(String[] args) throws InterruptedException {
-        LinkedBlockingQueue<String> test = new LinkedBlockingQueue<String>();
-        test.put("test");
-        for(String iter:test){
-            iter = "dsfasdf";
-        }
-        System.out.println("test");
     }
 }

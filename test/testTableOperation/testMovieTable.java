@@ -12,8 +12,12 @@ public class testMovieTable {
         String posterPath = "images/wdnmd.jpg";
 
         //test insert
-        Movie movie = new Movie("1", "复仇者联盟4", posterPath, "罗素", "Chris-evans", 1,
-                "English", "China", "2019-04-24", 9.5);
+        Movie movie = new Movie("1", "复仇者联盟4",
+                "The avengers 4", "03:02:22",
+                14.69,posterPath, "罗素", "Chris-evans",
+                "科幻", "English", "China",
+                "2019-04-24", 9.5,145897,
+                "这是电影简介");
         movieTable.insert(movie);
         movie.setMno("2");
         movieTable.insert(movie);
