@@ -12,21 +12,26 @@ public class MovieTable implements TableOperation {
     public static final String movieTableName = "movie";
 
     /**
-     *  create table with name @movieTableName
+     * create table with name @movieTableName
      */
     @Override
     public void createTable() {
-        String sql = "Create Table "+ movieTableName +"(" +
+        String sql = "Create Table " + movieTableName + "(" +
                 "Mno Char(12) Primary Key," +
                 "Mname Char(20)," +
+                "MEnglishName Char(40)," +
+                "Mduration Time," +
+                "MboxOffice double, " +
                 "MposterPath Char(50)," +
                 "director Char(50)," +
                 "actor Char(100)," +
-                "Mtype Int," +
+                "Mtype Char(20)," +
                 "Mlanguage Char(20)," +
                 "Mlocation Char(20)," +
                 "Mdate Date," +
-                "Mrating Decimal(3,2))" +
+                "Mrating Decimal(3,2)," +
+                "MscoreNumber int," +
+                "Mintroduction char(200))" +
                 " Default Charset = utf8";
         try {
             MovieSystemDB.getStmt().execute(sql);
@@ -36,7 +41,7 @@ public class MovieTable implements TableOperation {
     }
 
     /**
-     *  drop table with name @movieTableName
+     * drop table with name @movieTableName
      */
     @Override
     public void dropTable() {
@@ -50,27 +55,32 @@ public class MovieTable implements TableOperation {
 
     /**
      * @param o an object of class Movie containing the information needed to
-     *              be inserted into table
+     *          be inserted into table
      * @return a value tells that if the operation is executed successfully
      */
     @Override
     public boolean insert(Object o) {
-        String sql = "Insert Into " + movieTableName + " Values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "Insert Into " + movieTableName + " Values(?, ?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = null;
-        Movie movie = (Movie)o;
+        Movie movie = (Movie) o;
         try {
             pstmt = MovieSystemDB.getConn().prepareStatement(sql);
 
             pstmt.setString(1, movie.getMno());
             pstmt.setString(2, movie.getMname());
-            pstmt.setString(3, movie.getMposterPath());
-            pstmt.setString(4, movie.getDirector());
-            pstmt.setString(5, movie.getActor());
-            pstmt.setInt(6, movie.getMtype());
-            pstmt.setString(7, movie.getMlanguage());
-            pstmt.setString(8, movie.getMlocation());
-            pstmt.setString(9, movie.getMdate());
-            pstmt.setDouble(10, movie.getMrating());
+            pstmt.setString(3, movie.getMEnglishName());
+            pstmt.setString(4, movie.getMduration());
+            pstmt.setDouble(5, movie.getMboxOffice());
+            pstmt.setString(6, movie.getMposterPath());
+            pstmt.setString(7, movie.getDirector());
+            pstmt.setString(8, movie.getActor());
+            pstmt.setString(9, movie.getMtype());
+            pstmt.setString(10, movie.getMlanguage());
+            pstmt.setString(11, movie.getMlocation());
+            pstmt.setString(12, movie.getMdate());
+            pstmt.setDouble(13, movie.getMrating());
+            pstmt.setInt(14, movie.getMscoreNumber());
+            pstmt.setString(15, movie.getMintroduction());
 
             if (pstmt.executeUpdate() > 0) {
                 SimpleLogger.logger.info("insert " + movie.showSelf()
@@ -115,14 +125,19 @@ public class MovieTable implements TableOperation {
 
                 movie.setMno(rs.getString("Mno"));
                 movie.setMname(rs.getString("Mname"));
+                movie.setMEnglishName(rs.getString("MEnglishName"));
+                movie.setMduration(rs.getString("Mduration"));
+                movie.setMboxOffice(rs.getDouble("MboxOffice"));
                 movie.setMposterPath(rs.getString("MposterPath"));
                 movie.setDirector(rs.getString("director"));
                 movie.setActor(rs.getString("actor"));
-                movie.setMtype(rs.getInt("Mtype"));
+                movie.setMtype(rs.getString("Mtype"));
                 movie.setMlanguage(rs.getString("Mlanguage"));
                 movie.setMlocation(rs.getString("Mlocation"));
                 movie.setMdate(rs.getString("Mdate"));
                 movie.setMrating(rs.getDouble("Mrating"));
+                movie.setMscoreNumber(rs.getInt("MscoreNumber"));
+                movie.setMintroduction(rs.getString("Mintroduction"));
 
                 SimpleLogger.logger.info("select " + movie.showSelf() +
                         " from table '" + movieTableName + "'");
@@ -154,7 +169,7 @@ public class MovieTable implements TableOperation {
      * the return value tells that if the operation is executed successfully
      *
      * @param o an object of class Movie containing the information needed to
-     *              be updated into table
+     *          be updated into table
      */
     @Override
     public boolean update(Object o) {
@@ -162,7 +177,7 @@ public class MovieTable implements TableOperation {
         String sql = "Update " + movieTableName + " Set ";
         int count = 0;
 
-        Movie movie = (Movie)o;
+        Movie movie = (Movie) o;
         //make sql statement
         //----------------------------------
         if (movie.getMname() != null) {
@@ -170,6 +185,24 @@ public class MovieTable implements TableOperation {
                 sql += ", ";
             }
             sql += (" Mname = '" + movie.getMname() + "'");
+        }
+        if (movie.getMEnglishName() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" MEnglishName = '" + movie.getMEnglishName() + "'");
+        }
+        if (movie.getMduration() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" Mduration = '" + movie.getMduration() + "'");
+        }
+        if (movie.getMboxOffice() != 0) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" MboxOffice = " + movie.getMboxOffice());
         }
         if (movie.getMposterPath() != null) {
             if (0 < count++) {
@@ -189,7 +222,7 @@ public class MovieTable implements TableOperation {
             }
             sql += (" actor = '" + movie.getActor() + "'");
         }
-        if (movie.getMtype() != 0) {
+        if (movie.getMtype() != null) {
             if (0 < count++) {
                 sql += ", ";
             }
@@ -218,6 +251,18 @@ public class MovieTable implements TableOperation {
                 sql += ", ";
             }
             sql += (" Mrating = '" + movie.getMrating() + "'");
+        }
+        if (movie.getMscoreNumber() != 0) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" MscoreNumber = " + movie.getMrating());
+        }
+        if (movie.getMintroduction() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" Mintroduction = '" + movie.getMrating() + "'");
         }
         sql += " Where Mno = '" + movie.getMno() + "'";
         //----------------------------------

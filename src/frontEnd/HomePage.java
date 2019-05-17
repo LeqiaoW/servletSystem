@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import database.movieUtil.Movie;
 import database.movieUtil.MovieTable;
+import database.movieUtil.MovieToFrontEnd;
 import database.system.MovieSystemDB;
 import frontEnd.utils.ServletUtils;
 
@@ -28,8 +29,8 @@ public class HomePage extends HttpServlet {
         return testFile.exists();
     }
 
-    public LinkedBlockingQueue<Movie> getTop10(){
-        LinkedBlockingQueue<Movie> top10 = new LinkedBlockingQueue<>();
+    public LinkedBlockingQueue<MovieToFrontEnd> getTop10(){
+        LinkedBlockingQueue<MovieToFrontEnd> top10 = new LinkedBlockingQueue<>();
 
         String sql = "Select Mno From " + MovieTable.movieTableName +
                 " Order By Mrating limit 10";
@@ -41,11 +42,12 @@ public class HomePage extends HttpServlet {
                 Mno.put(rs.getString(1));
             }
             while(!Mno.isEmpty()){
-                Movie movie = MovieSystemDB.getMovieTable().select(Mno.peek());
+                Movie movie = MovieSystemDB.getMovieTable().select(Mno.remove());
                 if(!fileExist(movie.getMposterPath())){
                     movie.setMposterPath(defaultImagePath);
                 }
-                top10.put(movie);
+                MovieToFrontEnd movieToFrontEnd = new MovieToFrontEnd(movie);
+                top10.put(movieToFrontEnd);
             }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
