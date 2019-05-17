@@ -22,7 +22,7 @@ public class MovieSystemDB {
                     "&characterEncoding=UTF-8";
 
     private static final String USER = "root";
-    private static final String PSWD = "Csw981001.";
+    private static final String PSWD = "980425";
 
     private static MovieTable movieTable = null;
     private static UserTable userTable = null;
