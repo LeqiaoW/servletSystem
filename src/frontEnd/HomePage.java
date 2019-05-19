@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import database.movieUtil.Movie;
 import database.movieUtil.MovieTable;
 import database.movieUtil.MovieToFrontEnd;
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 import frontEnd.utils.ServletUtils;
 
 import com.alibaba.fastjson.JSON;

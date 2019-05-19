@@ -2,9 +2,7 @@ package frontEnd;
 
 import com.alibaba.fastjson.JSON;
 import database.movieUtil.Movie;
-import database.movieUtil.MovieTable;
-import database.movieUtil.MovieToFrontEnd;
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 import frontEnd.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -14,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(name = "MovieDetails", urlPatterns = {"/MovieDetails"})
 public class MovieDetails extends HttpServlet {

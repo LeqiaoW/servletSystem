@@ -1,5 +1,6 @@
-package database.system;
+package database.movieSystem;
 
+import database.theaterUtil.TheaterTable;
 import database.userUtil.UserTable;
 import database.movieUtil.MovieTable;
 import database.sceneUtil.SceneTable;
@@ -28,6 +29,7 @@ public class MovieSystemDB {
     private static UserTable userTable = null;
     private static SceneTable sceneTable = null;
     private static OrderTable orderTable = null;
+    private static TheaterTable theaterTable = null;
 
     private static Connection conn = null;
     private static Statement stmt = null;
@@ -40,6 +42,7 @@ public class MovieSystemDB {
          */
         userTable.createTable();
         movieTable.createTable();
+        theaterTable.createTable();
         sceneTable.createTable();
         orderTable.createTable();
     }
@@ -54,6 +57,7 @@ public class MovieSystemDB {
         sceneTable.dropTable();
         userTable.dropTable();
         movieTable.dropTable();
+        theaterTable.dropTable();
     }
 
     public static Connection getConn() {
@@ -80,11 +84,15 @@ public class MovieSystemDB {
         return orderTable;
     }
 
+    public static TheaterTable getTheaterTable() {
+        return theaterTable;
+    }
+
     /**
-     *  initialize the database, including build the connection between
-     *  the program and the DBMS, initializing the statement created by
-     *  the connection, used to executet sql query and finally create
-     *  tables needed in the system
+     * initialize the database, including build the connection between
+     * the program and the DBMS, initializing the statement created by
+     * the connection, used to executet sql query and finally create
+     * tables needed in the system
      */
     public static void DBinit() {
         try {
@@ -97,6 +105,7 @@ public class MovieSystemDB {
             //entry of different tables
             userTable = new UserTable();
             movieTable = new MovieTable();
+            theaterTable = new TheaterTable();
             sceneTable = new SceneTable();
             orderTable = new OrderTable();
 
@@ -109,9 +118,9 @@ public class MovieSystemDB {
     }
 
     /**
-     *  destroy the database, including close the statement created by
-     *  the connection, close the connection between the program and
-     *  the DBMS, and finally drop tables in the system
+     * destroy the database, including close the statement created by
+     * the connection, close the connection between the program and
+     * the DBMS, and finally drop tables in the system
      */
     public static void DBclose() {
         try {

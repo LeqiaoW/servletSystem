@@ -2,12 +2,8 @@ package testFrontEnd;
 
 import com.alibaba.fastjson.JSON;
 import database.movieUtil.Movie;
-import database.movieUtil.MovieToFrontEnd;
-import database.system.MovieSystemDB;
-import frontEnd.HomePage;
+import database.movieSystem.MovieSystemDB;
 import frontEnd.MovieDetails;
-
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class testMovieDetails {
     public static void main(String[] args) {

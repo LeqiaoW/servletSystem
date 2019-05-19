@@ -1,6 +1,6 @@
-package testTableOperation;
+package testDatabse;
 
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 
 public class testSystemDB {
     public static void main(String[] args) {
