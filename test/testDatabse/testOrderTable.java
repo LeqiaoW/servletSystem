@@ -1,8 +1,8 @@
-package testTableOperation;
+package testDatabse;
 
 import database.orderUtil.Order;
 import database.orderUtil.OrderTable;
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 
 public class testOrderTable {
     public static void main(String[] args) {

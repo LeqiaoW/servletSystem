@@ -1,6 +1,6 @@
 package listener;
 
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

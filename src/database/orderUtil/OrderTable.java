@@ -2,7 +2,7 @@ package database.orderUtil;
 
 import database.baseInterfaces.TableOperation;
 import database.sceneUtil.SceneTable;
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 import database.userUtil.UserTable;
 import logger.SimpleLogger;
 
@@ -26,6 +26,7 @@ public class OrderTable implements TableOperation {
                 "Uno Char(12), " +
                 " Foreign Key(Sno) References " +
                 SceneTable.sceneTableName + "(Sno)" +
+                //todo: order shouldn't be deleted, about money
                 " On Delete Cascade On Update Cascade,"+
                 " Foreign Key(Uno) References " +
                 UserTable.userTableName + "(Uno)" +

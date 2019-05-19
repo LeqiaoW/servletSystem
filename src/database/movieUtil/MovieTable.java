@@ -1,7 +1,7 @@
 package database.movieUtil;
 
 import database.baseInterfaces.TableOperation;
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 import logger.SimpleLogger;
 
 import java.sql.PreparedStatement;

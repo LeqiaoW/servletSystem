@@ -2,7 +2,8 @@ package database.sceneUtil;
 
 import database.baseInterfaces.TableOperation;
 import database.movieUtil.MovieTable;
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
+import database.theaterUtil.TheaterTable;
 import logger.SimpleLogger;
 
 import java.sql.PreparedStatement;
@@ -20,12 +21,20 @@ public class SceneTable implements TableOperation {
         String sql = "Create Table "+ sceneTableName +"(" +
                 "Sno Char(12) Primary Key," +
                 "Mno Char(12),"+
-                "Rno Char(20)," +
+                "Tno Char(12),"+
+                "Tbrand Char(20),"+
+                "language Char(12),"+
+                "roomType Char(20)," +
+                "roomName Char(20)," +
+                "location Char(20)," +
                 "Sdate Char(20)," +
                 "seat Char(200)," +
                 "price Double," +
                 " Foreign Key (Mno) References " +
                 MovieTable.movieTableName + "(Mno)" +
+                " On Delete Cascade On Update Cascade,"+
+                " Foreign Key(Tno) References " +
+                TheaterTable.theaterTableName + "(Tno)" +
                 " On Delete Cascade On Update Cascade"+
                 ")Default Charset = utf8";
         SimpleLogger.logger.info(sql);
@@ -56,7 +65,7 @@ public class SceneTable implements TableOperation {
      */
     @Override
     public boolean insert(Object o) {
-        String sql = "Insert Into " + sceneTableName + " Values(?,?, ?, ?, ?, ?)";
+        String sql = "Insert Into " + sceneTableName + " Values(?,?, ?, ?, ?, ?,?,?,?,?,?)";
         PreparedStatement pstmt = null;
         Scene scene = (Scene) o;
         try {
@@ -64,10 +73,15 @@ public class SceneTable implements TableOperation {
 
             pstmt.setString(1, scene.getSno());
             pstmt.setString(2, scene.getMno());
-            pstmt.setString(3, scene.getRno());
-            pstmt.setString(4, scene.getSdate());
-            pstmt.setString(5, scene.getSeat());
-            pstmt.setDouble(6, scene.getPrice());
+            pstmt.setString(3, scene.getTno());
+            pstmt.setString(4, scene.getTbrand());
+            pstmt.setString(5, scene.getLanguage());
+            pstmt.setString(6, scene.getRoomType());
+            pstmt.setString(7, scene.getRoomName());
+            pstmt.setString(8, scene.getLocation());
+            pstmt.setString(9, scene.getSdate());
+            pstmt.setString(10, scene.getSeat());
+            pstmt.setDouble(11, scene.getPrice());
 
             if (pstmt.executeUpdate() > 0) {
                 SimpleLogger.logger.info("insert " + scene.showSelf()
@@ -112,7 +126,12 @@ public class SceneTable implements TableOperation {
 
                 scene.setSno(rs.getString("Sno"));
                 scene.setMno(rs.getString("Mno"));
-                scene.setRno(rs.getString("Rno"));
+                scene.setTno(rs.getString("Tno"));
+                scene.setTbrand(rs.getString("Tbrand"));
+                scene.setLanguage(rs.getString("language"));
+                scene.setRoomType(rs.getString("roomType"));
+                scene.setRoomName(rs.getString("roomName"));
+                scene.setLocation(rs.getString("location"));
                 scene.setSdate(rs.getString("Sdate"));
                 scene.setSeat(rs.getString("seat"));
                 scene.setPrice(rs.getDouble("price"));
@@ -163,11 +182,41 @@ public class SceneTable implements TableOperation {
             }
             sql += (" Mno = '" + scene.getMno()+ "'");
         }
-        if (scene.getRno() != null) {
+        if (scene.getTno() != null) {
             if (0 < count++) {
                 sql += ", ";
             }
-            sql += (" Rno = '" + scene.getRno() + "'");
+            sql += (" Tno = '" + scene.getTno()+ "'");
+        }
+        if (scene.getTbrand() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" Tbrand = '" + scene.getTbrand()+ "'");
+        }
+        if (scene.getLanguage() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" language = '" + scene.getLanguage()+ "'");
+        }
+        if (scene.getRoomType() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" roomType = '" + scene.getRoomType() + "'");
+        }
+        if (scene.getRoomName() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" roomName = '" + scene.getRoomName() + "'");
+        }
+        if (scene.getLocation() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" location = '" + scene.getLocation() + "'");
         }
         if (scene.getSdate() != null) {
             if (0 < count++) {

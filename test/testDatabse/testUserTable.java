@@ -1,6 +1,6 @@
-package testTableOperation;
+package testDatabse;
 
-import database.system.MovieSystemDB;
+import database.movieSystem.MovieSystemDB;
 import database.userUtil.User;
 import database.userUtil.UserTable;
 
