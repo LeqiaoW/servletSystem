@@ -29,7 +29,7 @@ public class Theaters extends HttpServlet {
         hashMap.put("Mno", "");
         hashMap.put("Sdate", "");
         hashMap.put("Tbrand","");
-        hashMap.put("Slocation","");
+        hashMap.put("location","");
         hashMap.put("roomType","");
         hashMap.put("Tno","");
 
@@ -59,11 +59,11 @@ public class Theaters extends HttpServlet {
             }
             sql += "Tbrand = '" + hashMap.get("Tbrand") + "' ";
         }
-        if("" != hashMap.get("Slocation")){
+        if("" != hashMap.get("location")){
             if(count++>0){
                 sql +=" And ";
             }
-            sql += "Slocation = '" + hashMap.get("Slocation") + "' ";
+            sql += "location = '" + hashMap.get("location") + "' ";
         }
         if("" != hashMap.get("roomType")){
             if(count++>0){
@@ -114,7 +114,7 @@ public class Theaters extends HttpServlet {
             attr.put(new Pair4Filter("Mno", req.getParameter("Mno")));
             attr.put(new Pair4Filter("Sdate", req.getParameter("Sdate")));
             attr.put(new Pair4Filter("Tbrand", req.getParameter("Tbrand")));
-            attr.put(new Pair4Filter("Slocation", req.getParameter("Slocation")));
+            attr.put(new Pair4Filter("location", req.getParameter("location")));
             attr.put(new Pair4Filter("roomType", req.getParameter("roomType")));
             attr.put(new Pair4Filter("Tno", req.getParameter("Tno")));
 
