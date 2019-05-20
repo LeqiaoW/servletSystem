@@ -8,10 +8,7 @@ import database.orderUtil.OrderTable;
 
 import logger.SimpleLogger;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class MovieSystemDB {
 
@@ -32,7 +29,6 @@ public class MovieSystemDB {
     private static TheaterTable theaterTable = null;
 
     private static Connection conn = null;
-    private static Statement stmt = null;
 
     //create all the tables
     private static void createTables() {
@@ -62,10 +58,6 @@ public class MovieSystemDB {
 
     public static Connection getConn() {
         return conn;
-    }
-
-    public static Statement getStmt() {
-        return stmt;
     }
 
     public static UserTable getUserTable() {
@@ -100,7 +92,7 @@ public class MovieSystemDB {
             Class.forName(DIR);
             conn = DriverManager.getConnection(DB_URL, USER, PSWD);
             //initialize statement
-            stmt = conn.createStatement();
+//            stmt = conn.createStatement();
 
             //entry of different tables
             userTable = new UserTable();
@@ -128,7 +120,7 @@ public class MovieSystemDB {
             SimpleLogger.logger.info("Dropping old tables...");
             dropTables();
 
-            stmt.close();
+//            stmt.close();
             SimpleLogger.logger.info("Database connection closing");
             conn.close();
 
@@ -136,4 +128,5 @@ public class MovieSystemDB {
             e.printStackTrace();
         }
     }
+
 }

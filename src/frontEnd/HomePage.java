@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import database.DBOpration;
 import database.movieUtil.Movie;
 import database.movieUtil.MovieTable;
 import database.movieUtil.MovieToFrontEnd;
@@ -34,9 +36,11 @@ public class HomePage extends HttpServlet {
 
         String sql = "Select Mno From " + MovieTable.movieTableName +
                 " Order By Mrating limit 10";
+        Statement stmt = null;
         ResultSet rs = null;
         try{
-            rs = MovieSystemDB.getStmt().executeQuery(sql);
+            stmt = DBOpration.getStmt();
+            rs = stmt.executeQuery(sql);
             LinkedBlockingQueue<String> Mno = new LinkedBlockingQueue<>();
             while(rs.next()){
                 Mno.put(rs.getString(1));
