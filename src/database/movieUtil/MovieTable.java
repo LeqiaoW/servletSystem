@@ -1,5 +1,6 @@
 package database.movieUtil;
 
+import database.DBOpration;
 import database.baseInterfaces.TableOperation;
 import database.movieSystem.MovieSystemDB;
 import logger.SimpleLogger;
@@ -7,6 +8,7 @@ import logger.SimpleLogger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MovieTable implements TableOperation {
     public static final String movieTableName = "movie";
@@ -33,11 +35,7 @@ public class MovieTable implements TableOperation {
                 "MscoreNumber int," +
                 "Mintroduction char(200))" +
                 " Default Charset = utf8";
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -46,11 +44,7 @@ public class MovieTable implements TableOperation {
     @Override
     public void dropTable() {
         String sql = "Drop table " + movieTableName;
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -116,9 +110,11 @@ public class MovieTable implements TableOperation {
     public Movie select(String MnoPK) {
         String sql = "Select * FROM " + movieTableName + " Where Mno = '" + MnoPK + "'";
         ResultSet rs = null;
+        Statement stmt = null;
         try {
 
-            rs = MovieSystemDB.getStmt().executeQuery(sql);
+            stmt = DBOpration.getStmt();
+            rs = stmt.executeQuery(sql);
             if (rs.next()) {
 
                 Movie movie = new Movie();
@@ -152,13 +148,7 @@ public class MovieTable implements TableOperation {
             e.printStackTrace();
         } finally {
             //close ResultSet
-            try {
-                if (null != rs) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            DBOpration.closeRsStmt(rs, stmt);
         }
         SimpleLogger.logger.error("failed to select item with Mno values " +
                 MnoPK + " from table '" + movieTableName + "'");
@@ -268,9 +258,11 @@ public class MovieTable implements TableOperation {
         //----------------------------------
 
         SimpleLogger.logger.info(sql);
+        Statement stmt = null;
         try {
             if (count > 0) {
-                if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+                stmt = DBOpration.getStmt();
+                if (stmt.executeUpdate(sql) > 0) {
                     SimpleLogger.logger.info("update item with Mno '" + movie.getMno() +
                             "' in table '" + movieTableName + "'");
                     return true;
@@ -282,6 +274,8 @@ public class MovieTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBOpration.closeStmt(stmt);
         }
         //not existing Mno
         SimpleLogger.logger.info("failed to update item with Mno '" +
@@ -298,8 +292,10 @@ public class MovieTable implements TableOperation {
     @Override
     public boolean delete(String Mno) {
         String sql = "Delete From " + movieTableName + " Where Mno = '" + Mno + "'";
+        Statement stmt = null;
         try {
-            if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+            stmt = DBOpration.getStmt();
+            if (stmt.executeUpdate(sql) > 0) {
                 SimpleLogger.logger.info("delete item with Mno '" + Mno + "' from table '"
                         + movieTableName + "'");
                 return true;
@@ -309,6 +305,8 @@ public class MovieTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBOpration.closeStmt(stmt);
         }
         SimpleLogger.logger.error("failed to delete item with Mno '" + Mno +
                 "' from table '" + movieTableName + "'");

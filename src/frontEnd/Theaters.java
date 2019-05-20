@@ -1,11 +1,11 @@
 package frontEnd;
 
 import com.alibaba.fastjson.JSON;
+import database.DBOpration;
 import database.sceneUtil.Scene;
 import database.sceneUtil.SceneTable;
 import database.movieSystem.MovieSystemDB;
 import database.theaterUtil.Theater;
-import database.theaterUtil.TheaterToFrontEnd;
 import frontEnd.utils.Pair4Filter;
 import frontEnd.utils.ServletUtils;
 import logger.SimpleLogger;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -85,22 +86,18 @@ public class Theaters extends HttpServlet {
             sql = "Select Sno from " + SceneTable.sceneTableName;
         }
         SimpleLogger.logger.info(sql);
+        Statement stmt = null;
         ResultSet rs = null;
         try{
-            rs = MovieSystemDB.getStmt().executeQuery(sql);
+            stmt = DBOpration.getStmt();
+            rs = stmt.executeQuery(sql);
             while(rs.next()){
                 Snos.put(rs.getString("Sno"));
             }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
         }finally {
-            if(null != rs){
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            DBOpration.closeRsStmt(rs, stmt);
         }
         return Snos;
     }

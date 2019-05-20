@@ -1,12 +1,15 @@
 package database.userUtil;
 
+import database.DBOpration;
 import database.baseInterfaces.TableOperation;
 import database.movieSystem.MovieSystemDB;
+import database.movieUtil.MovieTable;
 import logger.SimpleLogger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UserTable implements TableOperation {
     public static final String userTableName = "user";
@@ -24,11 +27,7 @@ public class UserTable implements TableOperation {
                 "Ubalance Double," +
                 "Uorder Char(200))" +
                 " Default Charset = utf8";
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -37,11 +36,7 @@ public class UserTable implements TableOperation {
     @Override
     public void dropTable() {
         String sql = "Drop table " + userTableName;
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -98,9 +93,11 @@ public class UserTable implements TableOperation {
     public User select(String UnoPK) {
         String sql = "Select * FROM " + userTableName + " Where Uno = '" + UnoPK + "'";
         ResultSet rs = null;
+        Statement stmt = null;
         try {
 
-            rs = MovieSystemDB.getStmt().executeQuery(sql);
+            stmt = DBOpration.getStmt();
+            rs = stmt.executeQuery(sql);
             if (rs.next()) {
 
                 User user = new User();
@@ -124,13 +121,7 @@ public class UserTable implements TableOperation {
             e.printStackTrace();
         } finally {
             //close ResultSet
-            try {
-                if (null != rs) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            DBOpration.closeRsStmt(rs, stmt);
         }
         SimpleLogger.logger.error("failed to select item with Uno values " +
                 UnoPK + " from table '" + userTableName + "'");
@@ -185,9 +176,11 @@ public class UserTable implements TableOperation {
         sql += " Where Uno = '" + user.getUno() + "'";
         //----------------------------------
 
+        Statement stmt = null;
         try {
             if (count > 0) {
-                if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+                stmt = DBOpration.getStmt();
+                if (stmt.executeUpdate(sql) > 0) {
                     SimpleLogger.logger.info("update item with Uno '" + user.getUno() +
                             "' in table '" + userTableName + "'");
                     return true;
@@ -199,6 +192,8 @@ public class UserTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBOpration.closeStmt(stmt);
         }
         //not existing Mno
         SimpleLogger.logger.info("failed to update item with Uno '" +
@@ -215,8 +210,10 @@ public class UserTable implements TableOperation {
     @Override
     public boolean delete(String Uno) {
         String sql = "Delete From " + userTableName + " Where Uno = '" + Uno + "'";
+        Statement stmt = null;
         try {
-            if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+            stmt = DBOpration.getStmt();
+            if (stmt.executeUpdate(sql) > 0) {
                 SimpleLogger.logger.info("delete item with Uno '" + Uno + "' from table '"
                         + userTableName + "'");
                 return true;
@@ -226,6 +223,8 @@ public class UserTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            DBOpration.closeStmt(stmt);
         }
         SimpleLogger.logger.error("failed to delete item with Uno '" + Uno +
                 "' from table '" + userTableName + "'");

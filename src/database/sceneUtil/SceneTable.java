@@ -1,5 +1,6 @@
 package database.sceneUtil;
 
+import database.DBOpration;
 import database.baseInterfaces.TableOperation;
 import database.movieUtil.MovieTable;
 import database.movieSystem.MovieSystemDB;
@@ -9,6 +10,7 @@ import logger.SimpleLogger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SceneTable implements TableOperation {
     public static final String sceneTableName = "scene";
@@ -38,11 +40,7 @@ public class SceneTable implements TableOperation {
                 " On Delete Cascade On Update Cascade"+
                 ")Default Charset = utf8";
         SimpleLogger.logger.info(sql);
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -51,11 +49,7 @@ public class SceneTable implements TableOperation {
     @Override
     public void dropTable() {
         String sql = "Drop table " + sceneTableName;
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -116,10 +110,13 @@ public class SceneTable implements TableOperation {
     @Override
     public Scene select(String Sno) {
         String sql = "Select * FROM " + sceneTableName + " Where Sno = '" +Sno +"'";
+
+        Statement stmt = null;
         ResultSet rs = null;
+
         try {
 
-            rs = MovieSystemDB.getStmt().executeQuery(sql);
+            rs = stmt.executeQuery(sql);
             if (rs.next()) {
 
                 Scene scene = new Scene();
@@ -147,14 +144,7 @@ public class SceneTable implements TableOperation {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            //close ResultSet
-            try {
-                if (null != rs) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            DBOpration.closeRsStmt(rs, stmt);
         }
         SimpleLogger.logger.error("failed to select item with Sno values " +
                 Sno + " from table '" + sceneTableName + "'");
@@ -238,10 +228,11 @@ public class SceneTable implements TableOperation {
         }
         sql += " Where Sno = '" + scene.getSno() + "'";
         //----------------------------------
-
+        Statement stmt = null;
         try {
             if (count > 0) {
-                if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+                stmt = DBOpration.getStmt();
+                if (stmt.executeUpdate(sql) > 0) {
                     SimpleLogger.logger.info("update item with Sno '" + scene.getSno() +
                             "' in table '" + sceneTableName + "'");
                     return true;
@@ -253,6 +244,8 @@ public class SceneTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBOpration.closeStmt(stmt);
         }
         //not existing pk
         SimpleLogger.logger.info("failed to update item with Sno '" + scene.getSno() +
@@ -269,8 +262,10 @@ public class SceneTable implements TableOperation {
     @Override
     public boolean delete(String Sno) {
         String sql = "Delete From " + sceneTableName + " Where Sno = '" +Sno+"'";
+        Statement stmt = null;
         try {
-            if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+            stmt = DBOpration.getStmt();
+            if (stmt.executeUpdate(sql) > 0) {
                 SimpleLogger.logger.info("delete item with Sno '" + Sno + "' from table '"
                         + sceneTableName + "'");
                 return true;
@@ -280,6 +275,8 @@ public class SceneTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBOpration.closeStmt(stmt);
         }
         SimpleLogger.logger.error("failed to delete item with Sno '" + Sno +
                 "' from table '" + sceneTableName + "'");

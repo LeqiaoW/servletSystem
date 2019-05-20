@@ -1,5 +1,6 @@
 package database.orderUtil;
 
+import database.DBOpration;
 import database.baseInterfaces.TableOperation;
 import database.sceneUtil.SceneTable;
 import database.movieSystem.MovieSystemDB;
@@ -9,6 +10,7 @@ import logger.SimpleLogger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class OrderTable implements TableOperation {
     //order is a Reserved-Word in mysql, thus using 'orders' instead of using 'order'
@@ -32,11 +34,7 @@ public class OrderTable implements TableOperation {
                 UserTable.userTableName + "(Uno)" +
                 " On Delete Cascade On Update Cascade"+
                 " )Default Charset = utf8";
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -45,11 +43,7 @@ public class OrderTable implements TableOperation {
     @Override
     public void dropTable() {
         String sql = "Drop table " + tableName;
-        try {
-            MovieSystemDB.getStmt().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DBOpration.executeSql(sql);
     }
 
     /**
@@ -103,10 +97,11 @@ public class OrderTable implements TableOperation {
     @Override
     public Order select(String Ono) {
         String sql = "Select * FROM " + tableName + " Where Ono = '" + Ono + "'";
+        Statement stmt = null;
         ResultSet rs = null;
         try {
-
-            rs = MovieSystemDB.getStmt().executeQuery(sql);
+            stmt = DBOpration.getStmt();
+            rs = stmt.executeQuery(sql);
             if (rs.next()) {
 
                 Order order = new Order();
@@ -129,14 +124,7 @@ public class OrderTable implements TableOperation {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            //close ResultSet
-            try {
-                if (null != rs) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            DBOpration.closeRsStmt(rs, stmt);
         }
         SimpleLogger.logger.error("failed to select item with Ono values " +
                 Ono + " from table '" + tableName + "'");
@@ -178,10 +166,11 @@ public class OrderTable implements TableOperation {
         }
         sql += " Where Ono = '" + order.getOno() + "'";
         //----------------------------------
-
+        Statement stmt = null;
         try {
             if (count > 0) {
-                if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+                stmt = DBOpration.getStmt();
+                if (stmt.executeUpdate(sql) > 0) {
                     SimpleLogger.logger.info("update item with Ono '" + order.getOno() +
                             "' in table '" + tableName + "'");
                     return true;
@@ -193,6 +182,8 @@ public class OrderTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            DBOpration.closeStmt(stmt);
         }
         //not existing Mno
         SimpleLogger.logger.info("failed to update item with Ono '" +
@@ -209,8 +200,10 @@ public class OrderTable implements TableOperation {
     @Override
     public boolean delete(String Ono) {
         String sql = "Delete From " + tableName + " Where Ono = '" + Ono + "'";
+        Statement stmt = null;
         try {
-            if (MovieSystemDB.getStmt().executeUpdate(sql) > 0) {
+            stmt = DBOpration.getStmt();
+            if (stmt.executeUpdate(sql) > 0) {
                 SimpleLogger.logger.info("delete item with Ono '" + Ono + "' from table '"
                         + tableName + "'");
                 return true;
@@ -220,6 +213,8 @@ public class OrderTable implements TableOperation {
             return false;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBOpration.closeStmt(stmt);
         }
         SimpleLogger.logger.error("failed to delete item with Ono '" + Ono +
                 "' from table '" + tableName + "'");
