@@ -21,7 +21,8 @@ public class TheaterTable implements TableOperation {
         String sql = "Create Table " + theaterTableName + "(" +
                 "Tno Char(12) Primary Key," +
                 "Tname Char(30), " +
-                "Taddress Char(20))" +
+                "Taddress Char(20), " +
+                "Ttel Char(20))" +
                 " Default Charset = utf8";
         DBOpration.executeSql(sql);
     }
@@ -42,7 +43,7 @@ public class TheaterTable implements TableOperation {
      */
     @Override
     public boolean insert(Object o) {
-        String sql = "Insert Into " + theaterTableName + " Values(?,?, ?)";
+        String sql = "Insert Into " + theaterTableName + " Values(?,?, ?,?)";
         PreparedStatement pstmt = null;
         Theater theater = (Theater) o;
         try {
@@ -51,6 +52,7 @@ public class TheaterTable implements TableOperation {
             pstmt.setString(1, theater.getTno());
             pstmt.setString(2, theater.getTname());
             pstmt.setString(3, theater.getTaddress());
+            pstmt.setString(4,theater.getTtel());
 
             if (pstmt.executeUpdate() > 0) {
                 SimpleLogger.logger.info("insert " + theater.showSelf()
@@ -97,6 +99,7 @@ public class TheaterTable implements TableOperation {
                 theater.setTno(rs.getString("Tno"));
                 theater.setTname(rs.getString("Tname"));
                 theater.setTaddress(rs.getString("Taddress"));
+                theater.setTtel(rs.getString("Ttel"));
 
                 SimpleLogger.logger.info("select " + theater.showSelf() +
                         " from table '" + theaterTableName + "'");
@@ -143,6 +146,12 @@ public class TheaterTable implements TableOperation {
                 sql += ", ";
             }
             sql += (" Taddress = '" + theater.getTaddress() + "'");
+        }
+        if (theater.getTtel() != null) {
+            if (0 < count++) {
+                sql += ", ";
+            }
+            sql += (" Ttel = '" + theater.getTtel() + "'");
         }
         sql += " Where Tno = '" + theater.getTno() + "'";
         //----------------------------------
