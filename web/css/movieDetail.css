@@ -1,9 +1,9 @@
 	.main-content {
-	    width: 730px;
+	    width: 850px;
 	    float: left;
 	}
 	.tab-container .tab-title-container {
-		width: 730px;
+		width: 850px;
 		height: 30px;
     	border-bottom: 2px solid #eee;
 	}
@@ -114,7 +114,7 @@
 	    height: 170px;
 	}
 	.default-img {
-	    background-image: ;
+	    /*background-image: ;*/
 	    background-position: 50%;
 	    background-size: 68px 62px;
 	    background-repeat: no-repeat;

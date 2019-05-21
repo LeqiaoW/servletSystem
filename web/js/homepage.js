@@ -29,7 +29,6 @@ $(function(){
 });
 
 $(document).ready(function(){
-
     $.ajax({
         type:"GET",
         contentType:"charset=utf-8",
@@ -38,23 +37,38 @@ $(document).ready(function(){
              MovieList(data)
         },
         error: function () {
-            alert("Error");
-        },
+            alert("连接服务器超时");
+        }
     })
 });
 
 function MovieList(data) {
+    debugger;
     for(var i=0, len=data.length;i<len;i++){
         //添加多余的文件
         if(i>=1){
             $("#movie-list-hot-play").append($("#movie-item-hot-play1").clone());
-            $("#movie-list-hot-play li:last").attr('id','#movie-item-hot-play'+i+1);
+            // $("#movie-list-hot-play li:last").attr('id','#movie-item-hot-play'+(i+1));
         }
-
-        var name = data["Mname"];
-        var rate = data["Mrating"];
-        var pic = data["MposterPath"];
-        $("#movie-item-hot-play"+i+1+" #movie-rate").text(rate);
-        $("#movie-item-hot-play"+i+1+" #movie-name").text(name);
     }
+    $("#movie-item-hot-play1 #movie-rate").each(function (i) {
+        var rate = data[i]["Mrating"];
+        $(this).text(rate);
+    });
+    $("#movie-item-hot-play1 #movie-name").each(function (i) {
+        var name = data[i]["Mname"];
+        $(this).text(name);
+    });
+
+    $("#movie-item-hot-play1 img").each(function (i) {
+        var pic = data[i]["MposterPath"];
+        $(this).attr({'src':"/image?path="+pic,'id':data[i]["Mno"]});
+    });
+
+    $("#movie-item-img-my img").click(function (event) {
+        debugger;
+        var ID = $(event.target).attr("id");
+        localStorage.setItem('key',ID);
+        window.open("MovieDetail.html")
+    })
 }

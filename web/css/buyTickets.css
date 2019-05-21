@@ -8,7 +8,7 @@
   	.banner2 {
 	    width: 100%;
 	    min-width: 1200px;
-	    background: #392f59 url("../img/movies/banner.png") no-repeat 50%;
+	    background: #392f59 url("../img/banner.png") no-repeat 50%;
 	}
 	.banner2 .wrapper .celeInfo-left {
 	    width: 300px;
@@ -29,14 +29,12 @@
 	    width: 240px;
 	    height: 330px;
 	    padding-bottom: 40px;
-	    background: url("../img/gray.jpg") no-repeat bottom;
 	}
 	.banner2 .wrapper .celeInfo-right {
 		height: 100%;
 	    position: relative;
 	    margin-right: 30px;
 	    margin-left: 300px;
-	    margin-top: 70px;
 	}
 	.movie-brief-container {
 	    position: absolute;
@@ -171,7 +169,6 @@
 	}
 	.movie-stats-container .movie-index .movie-index-content .star-wrapper .star-on {
 	    height: 15px;
-	    background-image: url("../img/lightStar.jpg");
 	    background-repeat: repeat-x;
 	}
 	.main-inner{
@@ -324,4 +321,7 @@
 
 	.list-pager a {
 	    font-size: 14px;
+	}
+	.my-cinema-infos{
+		margin-top: 20px;
 	}

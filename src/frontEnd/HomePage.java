@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "homepage", urlPatterns = {"/homepage"})
 public class HomePage extends HttpServlet {
 
-    private static final String defaultImagePath = "C://users/swchen/Desktop/test.png";
+    private static final String defaultImagePath = "C://movie2.jpg";
     private boolean fileExist(String filePath){
         File testFile = new File(filePath);
         return testFile.exists();

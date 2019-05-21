@@ -20,16 +20,9 @@
   		height: 80px;
   		margin: 0 auto;
   	}
-  	.header .header-inner h1{
+  	.header .header-inner .logo{
   		float: left;
-  		width: 305px;
-  		height: 80px;
-  	}
-  	.header .header-inner h1 .logo{
-  		background-image: url("../img/logo.jpg");
-  		display: block;
-  		float: left;
-  		width: 385px;
+  		width: 345px;
   		height: 80px;
   	}
   	.header .nav{
@@ -37,7 +30,7 @@
   		height: 80px;
 		display: block;
 	    overflow: hidden;
-	    margin-left: 40px;
+	    /*margin-left: 40px;*/
 	    float: left;
   	}
   	.header .nav ul{
@@ -148,7 +141,6 @@
 	    color: #333;
 	    text-align: right;
 	    padding: 15px 26px 5px;
-	    text-align: center;
 	}
 	.header .user-info .user-menu li {
     	margin-bottom: 6px;

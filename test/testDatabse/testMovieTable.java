@@ -6,6 +6,8 @@ import database.movieUtil.MovieTable;
 
 public class testMovieTable {
     public static void main(String[] args) {
+//        MovieSystemDB.DBinit();
+//        MovieSystemDB.DBclose();
         MovieSystemDB.DBinit();
         MovieTable movieTable = MovieSystemDB.getMovieTable();
 

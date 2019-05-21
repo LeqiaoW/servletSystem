@@ -7,6 +7,7 @@ import database.sceneUtil.SceneTable;
 import frontEnd.utils.ServletUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.LinkedBlockingQueue;
 
+@WebServlet(name = "Options", urlPatterns = {"/options"})
 public class Options extends HttpServlet {
 
     public Options(){}
@@ -64,12 +66,13 @@ public class Options extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String Mno = req.getParameter("Mno");
-        ServletUtils.resJsonString(resp, JSON.toJSONString(getOptions(Mno)));
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ServletUtils.resJsonString(resp, JSON.toJSONString(""));
+//        ServletUtils.resJsonString(resp, JSON.toJSONString(""));
+        String Mno = req.getParameter("Mno");
+        ServletUtils.resJsonString(resp, JSON.toJSONString(getOptions(Mno)));
     }
 }

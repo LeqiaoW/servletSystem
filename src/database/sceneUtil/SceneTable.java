@@ -115,7 +115,7 @@ public class SceneTable implements TableOperation {
         ResultSet rs = null;
 
         try {
-
+            stmt = DBOpration.getStmt();
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
 

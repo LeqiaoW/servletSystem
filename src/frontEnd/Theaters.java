@@ -11,6 +11,7 @@ import frontEnd.utils.ServletUtils;
 import logger.SimpleLogger;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
+@WebServlet(name = "Theaters", urlPatterns = {"/theaters"})
 public class Theaters extends HttpServlet {
 
     public LinkedBlockingQueue<String> filter(LinkedBlockingQueue<Pair4Filter> attr){
@@ -104,7 +105,7 @@ public class Theaters extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LinkedBlockingQueue<Pair4Filter> attr = new LinkedBlockingQueue<>();
         LinkedBlockingQueue<Theater> theaters = new LinkedBlockingQueue<>();
         try {
@@ -131,7 +132,7 @@ public class Theaters extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServletUtils.resJsonString(resp, JSON.toJSONString(""));
     }
 
