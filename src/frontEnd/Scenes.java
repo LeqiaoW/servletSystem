@@ -2,9 +2,9 @@ package frontEnd;
 
 import com.alibaba.fastjson.JSON;
 import database.DBOpration;
+import database.movieSystem.MovieSystemDB;
 import database.sceneUtil.Scene;
 import database.sceneUtil.SceneTable;
-import database.movieSystem.MovieSystemDB;
 import database.theaterUtil.Theater;
 import frontEnd.utils.Filter;
 import frontEnd.utils.Pair4Filter;
@@ -16,22 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
-public class Theaters extends HttpServlet {
-
-
-
+public class Scenes extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LinkedBlockingQueue<Pair4Filter> attr = new LinkedBlockingQueue<>();
-        LinkedBlockingQueue<Theater> theaters = new LinkedBlockingQueue<>();
+        LinkedBlockingQueue<Scene> scenes = new LinkedBlockingQueue<>();
         try {
             attr.put(new Pair4Filter("Mno", req.getParameter("Mno")));
             attr.put(new Pair4Filter("Sdate", req.getParameter("Sdate")));
@@ -43,15 +35,13 @@ public class Theaters extends HttpServlet {
             LinkedBlockingQueue<String> Snos = Filter.filter(attr);
             while(!Snos.isEmpty()){
                 Scene scene = MovieSystemDB.getSceneTable().select(Snos.remove());
-                String Tno = scene.getTno();
-                Theater theater = MovieSystemDB.getTheaterTable().select(Tno);
-                theaters.put(theater);
+                scenes.put(scene);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        ServletUtils.resJsonString(resp, JSON.toJSONString(theaters));
+        ServletUtils.resJsonString(resp, JSON.toJSONString(scenes));
 
     }
 
@@ -59,5 +49,4 @@ public class Theaters extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServletUtils.resJsonString(resp, JSON.toJSONString(""));
     }
-
 }
