@@ -8,9 +8,11 @@
           <element id="module-output" name="servletSystem" />
         </element>
         <element id="directory" name="lib">
-          <element id="file-copy" path="E:/javaLib/log4j/apache-log4j-2.11.2-bin/log4j-api-2.11.2.jar" />
-          <element id="file-copy" path="E:/javaLib/log4j/apache-log4j-2.11.2-bin/log4j-core-2.11.2.jar" />
-          <element id="file-copy" path="E:/javaLib/jdbc/mysql-connector-java-5.1.47-bin.jar" />
+          <element id="library" level="project" name="fastjson-1.2.47" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/fastjson-1.2.47.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/log4j-api-2.11.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/log4j-core-2.11.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-5.1.47-bin.jar" />
         </element>
       </element>
     </root>

@@ -7,4 +7,22 @@ window.onload=function (){
     var xingzhengqu=localStorage.getItem('location');
     var teshuting=localStorage.getItem('roomType');
     var tno=localStorage.getItem('Tno');
+
+    $.ajax({
+        type:"GET",
+        url:"",
+        contentType:"charset=utf-8",
+        sucess:function (data) {
+            showTheater(data)
+        },
+        error:function () {
+            alert("连接服务器出错")
+        }
+    })
 };
+
+function showTheater(data) {
+    $(".cinema-brief-container h3").text();
+    $(".address").text();
+    $(".telphone p").text();
+}
